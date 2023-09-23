@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t koushiksai/jenkins-docker-hub .'
+        sh 'sudo docker build -t koushiksai/jenkins-docker-hub .'
       }
     }
     stage('Login') {
@@ -19,13 +19,13 @@ pipeline {
     }
     stage('Push') {
       steps {
-        sh 'docker push koushiksai/jenkins-docker-hub'
+        sh 'sudo docker push koushiksai/jenkins-docker-hub'
       }
     }
   }
   post {
     always {
-      sh 'docker logout'
+      sh 'sudo docker logout'
     }
   }
 }
