@@ -1,4 +1,3 @@
-#hihello
 pipeline {
   agent any
   options {
