@@ -15,19 +15,11 @@ pipeline {
             }
         }
 
-stage('SonarQube Analysis') {
-            steps {
-                // Run SonarQube analysis on the Dockerfile
-                script {
-                    def scannerHome = tool 'SonarQube Scanner'
-                    withEnv(["PATH+SONARSCANNER=${scannerHome}/bin"]) {
-                        sh """
-                        sonar-scanner -Dsonar.projectKey=sqp_16f943749daef60611cca3d8c077b69f685f95e1 -Dsonar.sources=. -Dsonar.language=docker
-                        """
-                    }
-                }
-            }
-        }
+    stage('SonarQube Analysi') {
+      steps {
+        sh 'cd /home/ubuntu/checkoutservice && /var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://13.126.48.106:9000   -Dsonar.token=sqp_3ec0d083de10a3b34456bf69cab2f03c25d576c7'
+      }
+    }
     stage('Login') {
       steps {
         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
