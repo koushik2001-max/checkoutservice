@@ -10,7 +10,7 @@ pipeline {
     stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build('koushiksai/jenkins-docker-hub:latest', '-f .')
+                    def dockerImage = docker.build('koushiksai/jenkins-docker-hub:latest', '.')
                 }
             }
         }
