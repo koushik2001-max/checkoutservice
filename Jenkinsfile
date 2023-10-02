@@ -8,16 +8,13 @@ pipeline {
   }
   stages {
 
-  stage('Docker Bench Security') {
-      steps {
-        sh 'chmod +x docker-bench-security.sh'
-        sh './docker-bench-security.sh'
-      }
-    }
     
         stage('SonarQube Analysis') {
       steps {
+        withSonarQubeEnv('SonarQube')
+        {
         sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=sqp_3ec0d083de10a3b34456bf69cab2f03c25d576c7'
+      }
       }
     }
 
@@ -45,6 +42,13 @@ stage('Quality Gate Check') {
                 }
             }
         }
+
+      stage('Docker Bench Security') {
+      steps {
+        sh 'chmod +x docker-bench-security.sh'
+        sh './docker-bench-security.sh'
+      }
+    }
 
     stage('Build Docker Image') {
             steps {
