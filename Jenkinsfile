@@ -12,7 +12,7 @@ pipeline {
       steps {
         sh 'ls'
         sh 'chmod +x docker-bench-security.sh'
-        sh 'docker-bench-security.sh'
+        sh './docker-bench-security.sh'
       }
     }
     
