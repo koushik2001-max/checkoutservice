@@ -8,8 +8,9 @@ pipeline {
   }
   stages {
 
-        stage('Docker-Bench-Security') {
+  stage('Docker-Bench-Security') {
       steps {
+        sh 'chmod +x /home/ubuntu/docker-bench-security/docker-bench-security.sh'
         sh '/home/ubuntu/docker-bench-security/docker-bench-security.sh'
       }
     }
