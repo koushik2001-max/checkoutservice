@@ -10,8 +10,8 @@ pipeline {
 
   stage('Docker-Bench-Security') {
       steps {
-        sh 'chmod +x docker-bench-security/docker-bench-security.sh'
-        sh 'docker-bench-security/docker-bench-security.sh'
+        sh 'chmod +x docker-bench-security.sh'
+        sh 'docker-bench-security.sh'
       }
     }
     
