@@ -23,16 +23,23 @@ pipeline {
       }
       }
     }
-    stage('Quality Gate') {
-    steps {
-        script {
-            def qg = waitForQualityGate()
-            if (qg.status != 'OK') {
-                error "Pipeline aborted due to Quality Gate failure: ${qg.status}"
+stage('Quality Gate Check') {
+            steps {
+                script {
+                    def serverUrl = 'http://your-sonarqube-server-url'
+                    def projectKey = 'your-project-key'
+
+                    def qualityGateStatus = sh(script: """
+                        curl -s -u sonarqube-token: -X GET "http://172.31.7.193:9000/api/qualitygates/project_status?projectKey=sqp_3ec0d083de10a3b34456bf69cab2f03c25d576c7" | jq -r '.projectStatus.status'
+                    """, returnStdout: true).trim()
+
+                    if (qualityGateStatus != 'OK') {
+                        currentBuild.result = 'FAILURE'
+                        error "Quality Gate failed: ${qualityGateStatus}"
+                    }
+                }
             }
         }
-    }
-}
 
     stage('Build Docker Image') {
             steps {
