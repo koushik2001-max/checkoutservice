@@ -9,66 +9,40 @@ pipeline {
   }
   stages {
 
-    
-        stage('SonarQube Analysis') {
-      steps {
-        script{
-        withSonarQubeEnv('SonarQube')
-        {
-        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=sqp_3ec0d083de10a3b34456bf69cab2f03c25d576c7'
-      }
-        }
-      }
-    }
-
-    stage("SonarQube Quality Gate"){
-          steps {
-            script {
-               timeout(time: 5, unit: 'MINUTES') { 
-               def qualitygate = waitForQualityGate() 
-               if (qualitygate.status != 'OK') {
-               abortPipeline:true
-               error "Pipeline aborted due to quality gate failure:   ${qualitygate.status}"
-                 }
-               else {
-               echo "Quality gate passed"
-                  }
-              }
-           }
-         }
-       }
-
-stage("Quality gate") {
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }
-
-    
-stage('Quality Gate Check') {
-            steps {
-                script {
-                    def serverUrl = 'http://your-sonarqube-server-url'
-                    def projectKey = 'your-project-key'
-
-                    def qualityGateStatus = sh(script: """
-                        curl -s -u sonarqube-token: -X GET "http://172.31.7.193:9000/api/qualitygates/project_status?projectKey=sqp_3ec0d083de10a3b34456bf69cab2f03c25d576c7" | jq -r '.projectStatus.status'
-                    """, returnStdout: true).trim()
-
-                    if (qualityGateStatus != 'OK') {
-                        currentBuild.result = 'FAILURE'
-                        error "Quality Gate failed: ${qualityGateStatus}"
-                    }
-                }
-            }
-        }
-
-      stage('Docker Bench Security') {
+          stage('Docker Bench Security') {
       steps {
         sh 'chmod +x docker-bench-security.sh'
         sh './docker-bench-security.sh'
       }
     }
+
+    
+        stage('SonarQube Analysis') {
+          agent any
+      steps {
+       
+        withSonarQubeEnv('SonarQube')
+        {
+        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=sqp_3ec0d083de10a3b34456bf69cab2f03c25d576c7'
+      }
+        
+      }
+    }
+
+
+
+stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+
+    
+
+
+
 
     stage('Build Docker Image') {
             steps {
