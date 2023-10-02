@@ -4,7 +4,7 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   environment {
-    scannerHome = tool 'SonarQubeScanner'
+    
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
   }
   stages {
