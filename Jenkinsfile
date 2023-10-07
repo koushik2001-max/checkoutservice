@@ -17,6 +17,7 @@ stage("vault"){
 
       sh '''
       curl -X POST -H "Content-Type: app/json" http://13.233.113.109:8200
+      '''
     }
   }
 }
