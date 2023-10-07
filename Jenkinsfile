@@ -9,6 +9,33 @@ pipeline {
   }
   stages {
 
+    
+stage('Retrieve Secret from Vault') {
+          steps {
+              script {
+                  // Retrieve a secret from Vault
+                  def secret = vault(
+                      path: 'cubbyhole/cubbyhole/test', // Vault path where your secret is stored
+                      engineVersion: '1', // Vault KV secrets engine version
+                      secretValues: [
+                          [$class: 'VaultSecretValue', secretKey: 'test'] // Specify the secret key
+                      ]
+                  )
+                  
+                  // Access the secret value
+                  def mySecretValue = secret['my-secret-key']
+                  
+                  // Use the secret in your pipeline
+                  echo "My secret value: ${mySecretValue}"
+              }
+          }
+      }
+
+
+
+
+    
+    
           stage('Docker Bench Security') {
       steps {
         sh 'chmod +x docker-bench-security.sh'
