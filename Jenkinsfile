@@ -9,6 +9,20 @@ pipeline {
   }
   stages {
 
+stage("vault"){
+
+  steps{
+
+    withCredentials([vaultString(credentialsId:'vault-secret-text')]){
+
+      sh '''
+      curl -X POST -H "Content-Type: app/json" http://13.233.113.109:8200
+    }
+  }
+}
+
+
+
     
 stage('Retrieve Secret from Vault') {
           steps {
