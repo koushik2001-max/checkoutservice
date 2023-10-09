@@ -10,10 +10,11 @@ pipeline {
   stages {
 
 stage("vault"){
-
+steps{
 withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-jenkins-role', vaultUrl: 'http://52.66.198.216:8200/ui/vault/secrets/cubbyhole/show/cubbyhole'], vaultSecrets: [[path: 'cubbyhole/cubbyhole', secretValues: [[vaultKey: 'test']]]]) {
     // some block
   sh 'echo $test'
+}
 }
 }
 
