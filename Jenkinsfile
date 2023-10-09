@@ -11,44 +11,15 @@ pipeline {
 
 stage("vault"){
 
-  steps{
-
-    withCredentials([vaultString(credentialsId:'vault-secret-text')]){
-
-      sh '''
-      curl -X POST -H "Content-Type: app/json" http://13.233.113.109:8200
-      '''
-    }
-  }
+withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-jenkins-role', vaultUrl: 'http://52.66.198.216:8200/ui/vault/secrets/cubbyhole/show/cubbyhole'], vaultSecrets: [[path: 'cubbyhole/cubbyhole', secretValues: [[vaultKey: 'test']]]]) {
+    // some block
+  sh 'echo $test'
+}
 }
 
 
 
     
-stage('Retrieve Secret from Vault') {
-          steps {
-              script {
-                  // Retrieve a secret from Vault
-                  def secret = vault(
-                      path: 'cubbyhole/cubbyhole/test', // Vault path where your secret is stored
-                      engineVersion: '1', // Vault KV secrets engine version
-                      secretValues: [
-                          [$class: 'VaultSecretValue', secretKey: 'test'] // Specify the secret key
-                      ]
-                  )
-                  
-                  // Access the secret value
-                  def mySecretValue = secret['my-secret-key']
-                  
-                  // Use the secret in your pipeline
-                  echo "My secret value: ${mySecretValue}"
-              }
-          }
-      }
-
-
-
-
     
     
           stage('Docker Bench Security') {
