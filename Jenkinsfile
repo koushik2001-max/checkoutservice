@@ -11,7 +11,7 @@ pipeline {
 
 stage("vault"){
 steps{
-withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-jenkins-role', vaultUrl: 'http://172.31.47.112:8200'], vaultSecrets: [[path: 'secrets/creds/my-secret-text', secretValues: [[envVar: 'mysecret', vaultKey: 'secret']]]]) {
+withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-jenkins-role', vaultUrl: 'http://172.31.47.112:8200'], vaultSecrets: [[path: 'cubbyhole/', secretValues: [[envVar: 'mysecret', vaultKey: 'test']]]]) {
     // some block
    sh 'echo $mysecret'
   sh 'echo mysecret'
