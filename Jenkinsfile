@@ -9,18 +9,7 @@ pipeline {
   }
   stages {
 
-stage("vault"){
-steps{
-withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-jenkins-role', vaultUrl: 'http://3.109.132.130:8200'], vaultSecrets: [[path: 'cubbyhole/cubbyhole/', secretValues: [[envVar: 'mysecret', vaultKey: 'test']]]]) {
-    // some block
-   sh 'echo $mysecret'
-  sh 'echo mysecret'
-  sh 'echo $secret'
-  sh 'echo secret'
-  
-}
-}
-}
+
     
 
 
