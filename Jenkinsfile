@@ -12,7 +12,7 @@ pipeline {
 
           stage("vault"){
 steps{
-WithCredentials([VaultString(CredentialsId:'vault-secret-text', variable:'MYSECRET')]){
+withCredentials([vaultString(credentialsId:'vault-secret-text', variable:'MYSECRET')]){
   sh 'echo $MYSECRET'
   sh 'echo MYSECRET'
 }
