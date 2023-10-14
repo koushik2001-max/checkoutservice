@@ -10,14 +10,7 @@ pipeline {
   stages {
 
 
-          stage("vault"){
-steps{
-withCredentials([vaultString(credentialsId:'vault-secret-text', variable:'MYSECRET')]){
-  sh 'echo $MYSECRET'
-  sh 'echo MYSECRET'
-}
-}
-}
+         
 
     stage('snyk checking') {
       steps {
