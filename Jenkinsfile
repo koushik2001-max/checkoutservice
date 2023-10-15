@@ -53,7 +53,7 @@ withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-token', vaultUr
     stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImage = docker.build('koushiksai/jenkins-docker-hub:latest', '.')
+                    def dockerImage = docker.build('koushiksai/checkoutservice:latest', '.')
                 }
             }
         }
@@ -66,7 +66,7 @@ withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-token', vaultUr
     }
     stage('Push') {
       steps {
-        sh 'docker push koushiksai/jenkins-docker-hub'
+        sh 'docker push koushiksai/checkoutservice'
       }
     }
   }
