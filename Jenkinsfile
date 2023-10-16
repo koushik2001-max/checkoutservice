@@ -1,3 +1,13 @@
+def secrets = [
+  [path: 'secret/jenkins/dockerhub2', engineVersion: 2, secretValues: [
+    [envVar: 'username', vaultKey: 'username'],
+    [envVar: 'password', vaultKey: 'password'],]],
+]
+def configuration = [vaultUrl: 'http://13.233.251.37:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+
+
+
+
 pipeline {
   agent any
   options {
@@ -13,16 +23,18 @@ pipeline {
             stage('vaultt'){
            steps{
              //withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-token', vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[engineVersion: 2,path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
-withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-approle', engineVersion: 2,vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub2',engineVersion: 2, secretValues: [[envVar: 'mysecret', vaultKey: 'username']]]]) {
+//withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-approle' ,vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub2', secretValues: [[envVar: 'mysecret', vaultKey: 'username']]]]) {
   // some block
- sh 'echo $mysecret'
-sh 'echo mysecret'
-sh 'echo $secret'
-sh 'echo secret'
+
+              withVault([configuration: configuration, vaultSecrets: secrets]) {
+          sh "echo ${env.username}"
+          sh "echo ${env.password}"
+        }
+ //sh 'echo $mysecret'
 
 }
 }
-         }
+        // }
     //     }
 
 
