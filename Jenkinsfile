@@ -1,5 +1,5 @@
 def secrets = [
-  [path: 'secret/jenkins/dockerhub2', engineVersion: 2, secretValues: [
+  [path: 'secret/dockerhub2', engineVersion: 2, secretValues: [
     [envVar: 'username', vaultKey: 'username'],
     [envVar: 'password', vaultKey: 'password'],]],
 ]
