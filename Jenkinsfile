@@ -3,7 +3,7 @@ def secrets = [
     [envVar: 'username', vaultKey: 'username'],
     [envVar: 'password', vaultKey: 'password'],]],
 ]
-def configuration = [vaultUrl: 'http://13.233.251.37:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
+def configuration = [vaultUrl: 'http://43.204.232.251:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
 
 
 
