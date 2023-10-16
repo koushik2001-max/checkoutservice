@@ -10,6 +10,16 @@ pipeline {
   stages {
 
 
+            stage('vaultt'){
+           steps{
+withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-token', vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
+    // some block
+  sh 'echo $username'
+  sh 'echo $password'
+}
+         }
+         }
+
 
 
 
