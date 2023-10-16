@@ -1,9 +1,9 @@
 def secrets = [
-  [path: 'secret/dockerhub2', engineVersion: 2, secretValues: [
+  [path: 'secret/jenkins/dockerhub2', engineVersion: 2, secretValues: [
     [envVar: 'username', vaultKey: 'username'],
     [envVar: 'password', vaultKey: 'password'],]],
 ]
-def configuration = [vaultUrl: 'http://13.233.251.37:8200',  vaultCredentialId: 'vault-approle', engineVersion: 1]
+def configuration = [vaultUrl: 'http://13.233.251.37:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
 
 
 
@@ -26,7 +26,7 @@ pipeline {
 //withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-approle' ,vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub2', secretValues: [[envVar: 'mysecret', vaultKey: 'username']]]]) {
   // some block
 
-              withVault([configuration: configuration, vaultSecrets: secrets]) {
+          withVault([configuration: configuration, vaultSecrets: secrets]) {
           sh "echo ${env.username}"
           sh "echo ${env.password}"
         }
