@@ -33,7 +33,7 @@ pipeline {
  //sh 'echo $mysecret'
 
 
-             withVault(configuration: [skipSslVerification: true, timeout: 60, vaultCredentialId: 'testt-token', vaultUrl: 'http://65.2.81.28:8200'], vaultSecrets: [[path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
+             withVault(configuration: [skipSslVerification: true, timeout: 60, vaultCredentialId: 'testt-token', vaultUrl: 'http://65.2.81.28:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub2', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
     // some block
               sh 'echo $username'
 }
