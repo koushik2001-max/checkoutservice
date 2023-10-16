@@ -26,11 +26,17 @@ pipeline {
 //withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-approle' ,vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub2', secretValues: [[envVar: 'mysecret', vaultKey: 'username']]]]) {
   // some block
 
-          withVault([configuration: configuration, vaultSecrets: secrets]) {
-          sh "echo ${env.username}"
-          sh "echo ${env.password}"
-        }
+       //   withVault([configuration: configuration, vaultSecrets: secrets]) {
+       //   sh "echo ${env.username}"
+       //   sh "echo ${env.password}"
+      //}
  //sh 'echo $mysecret'
+
+
+             withVault(configuration: [skipSslVerification: true, timeout: 60, vaultCredentialId: 'testt-token', vaultUrl: 'http://65.2.81.28:8200'], vaultSecrets: [[path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
+    // some block
+              sh 'echo $username'
+}
 
 }
 }
