@@ -20,7 +20,7 @@ pipeline {
   environment {
     
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-    VAULT_ADDR = 'http://3.108.55.223:8200/'
+    VAULT_ADDR = 'http://3.108.254.106/:8200/'
   }
   stages {
 
