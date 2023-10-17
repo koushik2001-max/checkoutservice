@@ -11,6 +11,12 @@
                               ]
                           ]
                       ]
+def configuration = [
+    vaultUrl: 'http://3.108.254.106:8200',
+    vaultCredentialId: 'vault-token',
+    engineVersion: 2
+]
+
 
 pipeline {
   agent any
@@ -62,22 +68,12 @@ pipeline {
 
       stage('Access Vault Secrets') {
           steps {
-              script {
-                  // Configure Vault plugin with Vault URL and token
-                  withVault([configuration: [vaultUrl: VAULT_ADDR, vaultCredentialId: 'vault-token', engineVersion: 2]]) {
-                      // Define the secrets you want to access
-                 
 
-                      // Retrieve the secrets and set them as environment variables
-                      withVault([vaultSecrets: secrets_store]) {
-                          sh 'env'
-                        echo "Secret Key 1: \$SECRET_KEY_1"
-                        echo "Secret Key 2: \$SECRET_KEY_2"
-                         echo "vaultSecrets: ${vaultSecrets}"
-                         echo "secrets: ${secrets}"
-                      }
-                  }
-              }
+                 withVault([configuration: configuration, vaultSecrets: secrets_store]) {
+                echo "$SECRET_KEY_1"
+                      echo "$SECRET_KEY_2"
+            }
+        
           }
       }
 
