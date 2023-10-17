@@ -4,16 +4,16 @@
 //]
      def secrets_store = [
                           [
-                              path: 'secret/dockerhub',
+                              path: 'cubbyhole/cubbyhole',
                               secretValues: [
                                   [envVar: 'SECRET_KEY_1', secretKey: 'username'],
-                                  [envVar: 'SECRET_KEY_2', secretKey: 'password']
+                                 // [envVar: 'SECRET_KEY_2', secretKey: 'password']
                               ]
                           ]
                       ]
 def configuration = [
     vaultUrl: 'http://3.108.254.106:8200',
-    vaultCredentialId: 'testt-token',
+    vaultCredentialId: 'vault-token',
     engineVersion: 2
 ]
 
