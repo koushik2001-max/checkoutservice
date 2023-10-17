@@ -4,7 +4,7 @@
 //]
      def secrets_store = [
                           [
-                              path: 'secret/dockerhub',
+                              path: 'kv/dockerhubb',
                               secretValues: [
                                   [envVar: 'SECRET_KEY_1', secretKey: 'username'],
                                   [envVar: 'SECRET_KEY_2', secretKey: 'password']
