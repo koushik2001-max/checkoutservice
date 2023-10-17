@@ -38,6 +38,7 @@ pipeline {
              withCredentials([[$class: 'VaultTokenCredentialBinding', credentialsId: 'testt-token', vaultAddr: 'https://127.0.0.1:8200']]) {
                 // values will be masked
                 sh 'echo TOKEN=$VAULT_TOKEN'
+               sh 'echo $VAULT_TOKEN'
                // sh 'echo ADDR=$VAULT_ADDR'
                 
    //             withVault([configuration: [vaultUrl: VAULT_ADDR, vaultCredentialId: 'jenkins_token', engineVersion: 2], vaultSecrets: secrets]) {
@@ -69,6 +70,8 @@ pipeline {
                       // Retrieve the secrets and set them as environment variables
                       withVault([vaultSecrets: secrets]) {
                           sh 'env'
+                        echo "Secret Key 1: \$SECRET_KEY_1"
+                        echo "Secret Key 2: \$SECRET_KEY_2"
                       }
                   }
               }
