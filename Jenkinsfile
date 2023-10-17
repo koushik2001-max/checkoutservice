@@ -1,13 +1,3 @@
-def secrets = [
-  [path: 'secret/jenkins/dockerhub2', engineVersion: 2, secretValues: [
-    [envVar: 'username', vaultKey: 'username'],
-    [envVar: 'password', vaultKey: 'password'],]],
-]
-def configuration = [vaultUrl: 'http://43.204.232.251:8200',  vaultCredentialId: 'vault-approle', engineVersion: 2]
-
-
-
-
 pipeline {
   agent any
   options {
