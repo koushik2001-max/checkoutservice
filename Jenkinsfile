@@ -58,7 +58,7 @@ pipeline {
                   // Configure Vault plugin with Vault URL and token
                   withVault([configuration: [vaultUrl: VAULT_ADDR, vaultCredentialId: 'testt-token', engineVersion: 2]]) {
                       // Define the secrets you want to access
-                      def secrets = [
+                      def secrets1 = [
                           [
                               path: 'secret/jenkins/dockerhub2',
                               secretValues: [
@@ -69,7 +69,7 @@ pipeline {
                       ]
 
                       // Retrieve the secrets and set them as environment variables
-                      withVault([vaultSecrets: secrets]) {
+                      withVault([vaultSecrets: secrets1]) {
                           sh 'env'
                         echo "Secret Key 1: \$SECRET_KEY_1"
                         echo "Secret Key 2: \$SECRET_KEY_2"
