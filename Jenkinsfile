@@ -13,7 +13,7 @@
                       ]
 def configuration = [
     vaultUrl: 'http://3.108.254.106:8200',
-    vaultCredentialId: 'vault-token',
+    vaultCredentialId: 's.qUb8l6JJQMujaKYNdFW93QR3',
     engineVersion: 2
 ]
 
