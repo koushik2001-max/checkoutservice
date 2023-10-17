@@ -13,7 +13,7 @@
                       ]
 def configuration = [
     vaultUrl: 'http://3.108.254.106:8200',
-    vaultCredentialId: 's.qUb8l6JJQMujaKYNdFW93QR3',
+    vaultCredentialId: 'testt-token',
     engineVersion: 2
 ]
 
