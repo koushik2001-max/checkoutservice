@@ -1,7 +1,7 @@
 
-def secrets = [
-    [path: 'secret/dockerhub']
-]
+//def secrets = [
+//    [path: 'secret/dockerhub']
+//]
 
 
 pipeline {
