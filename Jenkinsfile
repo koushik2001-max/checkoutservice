@@ -4,10 +4,10 @@
 //]
      def secrets_store = [
                           [
-                              path: 'cubbyhole/cubbyhole',
+                              path: 'secret/dockerhub',
                               secretValues: [
                                   [envVar: 'SECRET_KEY_1', secretKey: 'username'],
-                                 // [envVar: 'SECRET_KEY_2', secretKey: 'password']
+                                  [envVar: 'SECRET_KEY_2', secretKey: 'password']
                               ]
                           ]
                       ]
