@@ -35,7 +35,7 @@ pipeline {
             //  sh 'echo $username'
 //}
 
-             withCredentials([[$class: 'VaultTokenCredentialBinding', credentialsId: 'testt-token', vaultAddr: 'https://127.0.0.1:8200']]) {
+             withCredentials([[$class: 'VaultTokenCredentialBinding', credentialsId: 'testt-token', vaultAddr: VAULT_ADDR]]) {
                 // values will be masked
                 sh 'echo TOKEN=$VAULT_TOKEN'
                sh 'echo $VAULT_TOKEN'
@@ -60,7 +60,7 @@ pipeline {
                       // Define the secrets you want to access
                       def secrets = [
                           [
-                              path: 'secret/dockerhub',
+                              path: 'secret/jenkins/dockerhub2',
                               secretValues: [
                                   [envVar: 'SECRET_KEY_1', secretKey: 'username'],
                                   [envVar: 'SECRET_KEY_2', secretKey: 'password']
@@ -73,6 +73,8 @@ pipeline {
                           sh 'env'
                         echo "Secret Key 1: \$SECRET_KEY_1"
                         echo "Secret Key 2: \$SECRET_KEY_2"
+                         echo "vaultSecrets: ${vaultSecrets}"
+                         echo "secrets: ${secrets}"
                       }
                   }
               }
