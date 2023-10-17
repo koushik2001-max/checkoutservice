@@ -1,3 +1,9 @@
+
+def secrets = [
+    [path: 'secret/dockerhub']
+]
+
+
 pipeline {
   agent any
   options {
@@ -6,6 +12,7 @@ pipeline {
   environment {
     
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    VAULT_ADDR = 'http://3.108.55.223:8200/'
   }
   stages {
 
@@ -23,15 +30,23 @@ pipeline {
  //sh 'echo $mysecret'
 
 
-             withVault(configuration: [skipSslVerification: true, timeout: 60, vaultCredentialId: 'testt-token', vaultUrl: 'http://127.0.0.1:8200'], vaultSecrets: [[path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
+           //  withVault(configuration: [skipSslVerification: true, timeout: 60, vaultCredentialId: 'testt-token', vaultUrl: 'http://127.0.0.1:8200'], vaultSecrets: [[path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
     // some block
-              sh 'echo $username'
-}
+            //  sh 'echo $username'
+//}
 
+             withCredentials([[$class: 'VaultTokenCredentialBinding', credentialsId: 'testt-token', vaultAddr: 'https://127.0.0.1:8200']]) {
+                // values will be masked
+                sh 'echo TOKEN=$VAULT_TOKEN'
+               // sh 'echo ADDR=$VAULT_ADDR'
+                
+   //             withVault([configuration: [vaultUrl: VAULT_ADDR, vaultCredentialId: 'jenkins_token', engineVersion: 2], vaultSecrets: secrets]) {
+          //          sh 'env'
+             
+//}
 }
-}
-        // }
-    //     }
+         }
+     }
 
 
 
