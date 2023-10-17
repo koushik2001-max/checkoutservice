@@ -39,6 +39,7 @@ pipeline {
                 // values will be masked
                 sh 'echo TOKEN=$VAULT_TOKEN'
                sh 'echo $VAULT_TOKEN'
+               sh 'echo $TOKEN'
                // sh 'echo ADDR=$VAULT_ADDR'
                 
    //             withVault([configuration: [vaultUrl: VAULT_ADDR, vaultCredentialId: 'jenkins_token', engineVersion: 2], vaultSecrets: secrets]) {
