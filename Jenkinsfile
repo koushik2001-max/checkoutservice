@@ -2,7 +2,15 @@
 //def secrets = [
 //    [path: 'secret/dockerhub']
 //]
-
+     def secrets_store = [
+                          [
+                              path: 'secret/jenkins/dockerhub2',
+                              secretValues: [
+                                  [envVar: 'SECRET_KEY_1', secretKey: 'username'],
+                                  [envVar: 'SECRET_KEY_2', secretKey: 'password']
+                              ]
+                          ]
+                      ]
 
 pipeline {
   agent any
@@ -58,15 +66,7 @@ pipeline {
                   // Configure Vault plugin with Vault URL and token
                   withVault([configuration: [vaultUrl: VAULT_ADDR, vaultCredentialId: 'vault-token', engineVersion: 2]]) {
                       // Define the secrets you want to access
-                      def secrets_store = [
-                          [
-                              path: 'secret/jenkins/dockerhub2',
-                              secretValues: [
-                                  [envVar: 'SECRET_KEY_1', secretKey: 'username'],
-                                  [envVar: 'SECRET_KEY_2', secretKey: 'password']
-                              ]
-                          ]
-                      ]
+                 
 
                       // Retrieve the secrets and set them as environment variables
                       withVault([vaultSecrets: secrets_store]) {
