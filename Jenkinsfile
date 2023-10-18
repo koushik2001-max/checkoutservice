@@ -12,7 +12,7 @@
                           ]
                       ]
 def configuration = [
-    vaultUrl: 'http://3.108.254.106:8200',
+    vaultUrl: 'http://3.111.58.88:8200',
     vaultCredentialId: 'testt-token',
     engineVersion: 2
 ]
@@ -26,7 +26,7 @@ pipeline {
   environment {
     
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-    VAULT_ADDR = 'http://3.108.254.106/:8200/'
+    VAULT_ADDR = 'http://3.111.58.88:8200/'
   }
   stages {
 
