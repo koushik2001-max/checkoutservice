@@ -4,7 +4,7 @@
 //]
      def secrets_store = [
                           [
-                              path: 'kv/dockerhubb',
+                              path: 'secret/dockerhub',
                               secretValues: [
                                   [envVar: 'SECRET_KEY_1', secretKey: 'username'],
                                   [envVar: 'SECRET_KEY_2', secretKey: 'password']
@@ -13,7 +13,7 @@
                       ]
 def configuration = [
     vaultUrl: 'http://3.111.58.88:8200',
-    vaultCredentialId: 'testt-token',
+    vaultCredentialId: 'vault-token',
     engineVersion: 2
 ]
 
