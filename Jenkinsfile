@@ -17,6 +17,7 @@ def docker_secrets = [
 
                       [
                               path: 'secrets/creds/checkoutservice',
+                              engineVersion: 2,
                               secretValues: [
                                   [envVar: 'sonartoken', secretKey: 'sonartoken']
                                   
