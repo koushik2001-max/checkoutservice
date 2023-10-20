@@ -5,6 +5,7 @@
      def secrets_store = [
                           [
                               path: 'secrets/creds/dockercreds',
+                              engineVersion: 2,
                               secretValues: [
                                   [envVar: 'SECRET_KEY_1', secretKey: 'username'],
                                   [envVar: 'SECRET_KEY_2', secretKey: 'password']
