@@ -9,17 +9,20 @@
                                   [envVar: 'SECRET_KEY_1', secretKey: 'username'],
                                   [envVar: 'SECRET_KEY_2', secretKey: 'password']
                               ]
-                          ],
+                          ]
+                      ]
 
-                            [
+def docker_secrets = [
+
+                      [
                               path: 'secrets/creds/checkoutservice',
                               secretValues: [
                                   [envVar: 'sonartoken', secretKey: 'sonartoken']
                                   
                               ]
                           ]
-          
-                      ]
+     ]
+
 def configuration = [
     vaultUrl: 'http://65.0.30.51:8200',
     vaultCredentialId: 'vault-geetha-token',
@@ -100,9 +103,9 @@ pipeline {
           agent any
       steps {
        
-
+        withVault([configuration: configuration, vaultSecrets: docker_secrets]) {
         sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=$sonartoken'
-      
+        }
         
       }
     }
