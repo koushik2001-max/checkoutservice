@@ -43,8 +43,8 @@ pipeline {
   stages {
 
 
-            stage('vaultt'){
-           steps{
+//            stage('vaultt'){
+  //         steps{
              //withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-token', vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[engineVersion: 2,path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
 //withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-approle' ,vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub2', secretValues: [[envVar: 'mysecret', vaultKey: 'username']]]]) {
   // some block
@@ -61,20 +61,20 @@ pipeline {
             //  sh 'echo $username'
 //}
 
-             withCredentials([[$class: 'VaultTokenCredentialBinding', credentialsId: 'vault-token', vaultAddr: VAULT_ADDR]]) {
+      //       withCredentials([[$class: 'VaultTokenCredentialBinding', credentialsId: 'vault-token', vaultAddr: VAULT_ADDR]]) {
                 // values will be masked
-                sh 'echo TOKEN=$VAULT_TOKEN'
-               sh 'echo $VAULT_TOKEN'
-               sh 'echo $TOKEN'
+     //           sh 'echo TOKEN=$VAULT_TOKEN'
+    //           sh 'echo $VAULT_TOKEN'
+    //           sh 'echo $TOKEN'
                // sh 'echo ADDR=$VAULT_ADDR'
                 
    //             withVault([configuration: [vaultUrl: VAULT_ADDR, vaultCredentialId: 'jenkins_token', engineVersion: 2], vaultSecrets: secrets]) {
           //          sh 'env'
              
 //}
-}
-         }
-     }
+//}
+//         }
+//     }
 
 
 
@@ -83,6 +83,17 @@ pipeline {
 
 
 
+       stage('Vault') {
+            steps {
+                script {
+                    withVault([configuration: configuration, vaultSecrets: docker_secrets]) {
+                        // Extract the SonarQube Token
+                        sonartoken = env.sonartoken
+                        sh "echo \${sonartoken}"
+                    }
+                }
+            }
+        }
     
 
 
