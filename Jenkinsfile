@@ -7,8 +7,8 @@
                               path: 'secrets/creds/dockercreds',
                               engineVersion: 2,
                               secretValues: [
-                                  [envVar: 'SECRET_KEY_1', secretKey: 'username'],
-                                  [envVar: 'SECRET_KEY_2', secretKey: 'password']
+                                  [envVar: 'SECRET_KEY_1', vaultKey: 'username'],
+                                  [envVar: 'SECRET_KEY_2', vaultKey: 'password']
                               ]
                           ]
                       ]
@@ -19,7 +19,7 @@ def docker_secrets = [
                               path: 'secrets/creds/checkoutservice',
                               engineVersion: 2,
                               secretValues: [
-                                  [envVar: 'sonartoken', secretKey: 'sonartoken']
+                                  [envVar: 'sonartoken', vaultKey: 'sonartoken']
                                   
                               ]
                           ]
