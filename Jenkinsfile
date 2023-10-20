@@ -4,16 +4,25 @@
 //]
      def secrets_store = [
                           [
-                              path: 'secret/dockerhub',
+                              path: 'secrets/creds/dockercreds',
                               secretValues: [
                                   [envVar: 'SECRET_KEY_1', secretKey: 'username'],
                                   [envVar: 'SECRET_KEY_2', secretKey: 'password']
                               ]
+                          ],
+
+                            [
+                              path: 'secrets/creds/checkoutservice',
+                              secretValues: [
+                                  [envVar: 'sonartoken', secretKey: 'sonartoken']
+                                  
+                              ]
                           ]
+          
                       ]
 def configuration = [
-    vaultUrl: 'http://3.111.58.88:8200',
-    vaultCredentialId: 'vault-token',
+    vaultUrl: 'http://65.0.30.51:8200',
+    vaultCredentialId: 'vault-geetha-token',
     engineVersion: 2
 ]
 
@@ -26,7 +35,7 @@ pipeline {
   environment {
     
     DOCKERHUB_CREDENTIALS = credentials('dockerhub')
-    VAULT_ADDR = 'http://3.111.58.88:8200/'
+    VAULT_ADDR = 'http://65.0.30.51:8200/'
   }
   stages {
 
@@ -66,16 +75,7 @@ pipeline {
 
 
 
-      stage('Access Vault Secrets') {
-          steps {
 
-                 withVault([configuration: configuration, vaultSecrets: secrets_store]) {
-                echo "$SECRET_KEY_1"
-                      echo "$SECRET_KEY_2"
-            }
-        
-          }
-      }
 
 
 
@@ -101,7 +101,7 @@ pipeline {
       steps {
        
 
-        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=sqp_3ec0d083de10a3b34456bf69cab2f03c25d576c7'
+        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=$sonartoken'
       
         
       }
@@ -140,7 +140,10 @@ stage('snyk checking') {
 
     stage('Login') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+
+           withVault([configuration: configuration, vaultSecrets: secrets_store]) {
+        sh 'echo $SECRET_KEY_2 | docker login -u $SECRET_KEY_1 --password-stdin'
+      }
       }
     }
     stage('Push') {
