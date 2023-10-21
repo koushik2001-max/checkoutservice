@@ -1,7 +1,7 @@
 
 def secrets = [
     [
-        path: 'secrets/creds/checkoutservice',
+        path: 'secrets/creds/my-secret-text',
         engineVersion: 2,
         secretValues: [
             [envVar: 'SONARQUBE_TOKEN', vaultKey: 'checkout']
