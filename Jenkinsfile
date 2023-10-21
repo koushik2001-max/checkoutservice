@@ -86,7 +86,7 @@ stage('Vault') {
     stage('Login') {
       steps {
 
-           withVault([configuration: configuration, vaultSecrets: secrets_store]) {
+           withVault([configuration: configuration, vaultSecrets: secrets]) {
         sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
       }
       }
