@@ -1,7 +1,4 @@
 
-//def secrets = [
-//    [path: 'secret/dockerhub']
-//]
      def secrets_store = [
                           [
                               path: 'secrets/creds/dockercreds',
@@ -13,7 +10,7 @@
                           ]
                       ]
 
-def docker_secrets = [
+def sonar_secret = [
 
                       [
                               path: 'secrets/creds/checkoutservice',
@@ -88,7 +85,7 @@ pipeline {
        stage('Vault') {
             steps {
                 script {
-                    withVault([configuration: configuration, vaultSecrets: docker_secrets]) {
+                    withVault([configuration: configuration, vaultSecrets: sonar_secret]) {
                         // Extract the SonarQube Token
                         sonartoken = env.sonartoken
                         sh "echo \${sonartoken}"
@@ -116,8 +113,8 @@ pipeline {
           agent any
       steps {
        
-        withVault([configuration: configuration, vaultSecrets: docker_secrets]) {
-        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=sqp_3ec0d083de10a3b34456bf69cab2f03c25d576c7'
+        withVault([configuration: configuration, vaultSecrets: sonar_secret]) {
+        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=$sonartoken'
         }
         
       }
