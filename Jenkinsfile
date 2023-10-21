@@ -1,26 +1,13 @@
 
-     def secrets_store = [
-                          [
-                              path: 'secrets/creds/dockercreds',
-                              engineVersion: 2,
-                              secretValues: [
-                                  [envVar: 'SECRET_KEY_1', vaultKey: 'username'],
-                                  [envVar: 'SECRET_KEY_2', vaultKey: 'password']
-                              ]
-                          ]
-                      ]
-
-def sonar_secret = [
-
-                      [
-                              path: 'secrets/creds/checkoutservice',
-                              engineVersion: 2,
-                              secretValues: [
-                                  [envVar: 'sonartoken', vaultKey: 'sonartoken']
-                                  
-                              ]
-                          ]
-     ]
+def secrets = [
+    [
+        path: 'secrets/creds/checkoutservice',
+        engineVersion: 2,
+        secretValues: [
+            [envVar: 'SONARQUBE_TOKEN', vaultKey: 'sonartoken']
+        ]
+    ]
+]
 
 def configuration = [
     vaultUrl: 'http://65.0.30.51:8200',
@@ -42,58 +29,19 @@ pipeline {
   stages {
 
 
-//            stage('vaultt'){
-  //         steps{
-             //withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-token', vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[engineVersion: 2,path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
-//withVault(configuration: [timeout: 60, vaultCredentialId: 'vault-approle' ,vaultUrl: 'http://13.233.251.37:8200'], vaultSecrets: [[path: 'secret/jenkins/dockerhub2', secretValues: [[envVar: 'mysecret', vaultKey: 'username']]]]) {
-  // some block
 
-       //   withVault([configuration: configuration, vaultSecrets: secrets]) {
-       //   sh "echo ${env.username}"
-       //   sh "echo ${env.password}"
-      //}
- //sh 'echo $mysecret'
-
-
-           //  withVault(configuration: [skipSslVerification: true, timeout: 60, vaultCredentialId: 'testt-token', vaultUrl: 'http://127.0.0.1:8200'], vaultSecrets: [[path: 'secret/dockerhub', secretValues: [[vaultKey: 'username'], [vaultKey: 'password']]]]) {
-    // some block
-            //  sh 'echo $username'
-//}
-
-      //       withCredentials([[$class: 'VaultTokenCredentialBinding', credentialsId: 'vault-token', vaultAddr: VAULT_ADDR]]) {
-                // values will be masked
-     //           sh 'echo TOKEN=$VAULT_TOKEN'
-    //           sh 'echo $VAULT_TOKEN'
-    //           sh 'echo $TOKEN'
-               // sh 'echo ADDR=$VAULT_ADDR'
-                
-   //             withVault([configuration: [vaultUrl: VAULT_ADDR, vaultCredentialId: 'jenkins_token', engineVersion: 2], vaultSecrets: secrets]) {
-          //          sh 'env'
-             
-//}
-//}
-//         }
-//     }
-
-
-
-
-
-
-
-
-       stage('Vault') {
+    
+stage('Vault') {
             steps {
                 script {
-                    withVault([configuration: configuration, vaultSecrets: sonar_secret]) {
+                    withVault([configuration: configuration, vaultSecrets: secrets]) {
                         // Extract the SonarQube Token
-                        sonartoken = env.sonartoken
-                        sh "echo \${sonartoken}"
+                        SONARQUBE_TOKEN = env.SONARQUBE_TOKEN
+                        sh "echo \${SONARQUBE_TOKEN}"
                     }
                 }
             }
         }
-    
 
 
     
@@ -113,8 +61,8 @@ pipeline {
           agent any
       steps {
        
-        withVault([configuration: configuration, vaultSecrets: sonar_secret]) {
-        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=$sonartoken'
+             withVault([configuration: configuration, vaultSecrets: secrets]) {
+        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=$SONARQUBE_TOKEN'
         }
         
       }
