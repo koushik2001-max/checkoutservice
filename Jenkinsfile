@@ -4,7 +4,9 @@ def secrets = [
         path: 'secrets/creds/my-secret-text',
         engineVersion: 2,
         secretValues: [
-            [envVar: 'SONARQUBE_TOKEN', vaultKey: 'checkout']
+            [envVar: 'SONARQUBE_TOKEN', vaultKey: 'checkout'],
+            [envVar: 'USERNAME', vaultKey: 'username'],
+            [envVar: 'PASSWORD', vaultKey: 'password']
         ]
     ]
 ]
@@ -68,25 +70,7 @@ stage('Vault') {
       }
     }
 
-stage('snyk checking') {
 
-      steps {
-
-        echo 'snyk testing...'
-
-        snykSecurity(
-
-          snykInstallation: "snyk@latest",
-
-          snykTokenId: "organisation-snyk-api-token",
-
-          // place other parameters here
-
-        )
-
-      }
-
-    }
 
 
 
@@ -103,7 +87,7 @@ stage('snyk checking') {
       steps {
 
            withVault([configuration: configuration, vaultSecrets: secrets_store]) {
-        sh 'echo $SECRET_KEY_2 | docker login -u $SECRET_KEY_1 --password-stdin'
+        sh 'echo $PASSWORD | docker login -u $USERNAME --password-stdin'
       }
       }
     }
