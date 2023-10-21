@@ -4,7 +4,7 @@ def secrets = [
         path: 'secrets/creds/checkoutservice',
         engineVersion: 2,
         secretValues: [
-            [envVar: 'SONARQUBE_TOKEN', vaultKey: 'sonartoken']
+            [envVar: 'SONARQUBE_TOKEN', vaultKey: 'checkout']
         ]
     ]
 ]
@@ -62,7 +62,7 @@ stage('Vault') {
       steps {
        
              withVault([configuration: configuration, vaultSecrets: secrets]) {
-        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkout-service   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=$SONARQUBE_TOKEN'
+        sh '/var/opt/sonar-scanner-4.7.0.2747-linux/bin/sonar-scanner  -Dsonar.projectKey=checkoutservice1   -Dsonar.sources=.   -Dsonar.host.url=http://172.31.7.193:9000   -Dsonar.token=$SONARQUBE_TOKEN'
         }
         
       }
