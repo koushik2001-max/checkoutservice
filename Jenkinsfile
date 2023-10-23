@@ -69,6 +69,25 @@ stage('Vault') {
         
       }
     }
+        stage('snyk checking') {
+
+      steps {
+
+        echo 'snyk testing...'
+
+        snykSecurity(
+
+          snykInstallation: "snyk@latest",
+
+          snykTokenId: "organisation-snyk-api-token",
+
+          // place other parameters here
+
+        )
+
+      }
+
+    }
 
 
 
